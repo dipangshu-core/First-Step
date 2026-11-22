@@ -40,16 +40,18 @@ st.markdown(
 )
 
 st.title("First Step")
-st.caption("A small step towards smarter conversations.")
+st.caption("A first step towards smarter conversations.")
 
 with st.sidebar:
     st.header("Settings")
-    api_key = st.text_input(
-        "OpenRouter API key",
-        value=os.getenv("OPENROUTER_API_KEY", ""),
-        type="password",
-        help="Your key is used only for requests from this app. Do not share it.",
-    )
+
+    try:
+        api_key = st.secrets.get(
+            "OPENROUTER_API_KEY",
+            os.getenv("OPENROUTER_API_KEY", "")
+        )
+    except Exception:
+        api_key = os.getenv("OPENROUTER_API_KEY", "")
     model = st.text_input(
         "Model",
         value=os.getenv("OPENROUTER_MODEL", "openrouter/free"),
